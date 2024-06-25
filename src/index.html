@@ -4,21 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Pixabay-api</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load ="partials/header.html" />
-
-    <section>
-      <h1>Example page title</h1>
-      <!-- Path to images as from index.html file -->
-      <img src="./img/javascript.svg" alt="" />
+    <section class="pixabay-section">
+      <div class="pixabay-items">
+        <form class="search-form" id="search-form">
+          <input
+            class="search-input"
+            type="text"
+            name="query"
+            placeholder="Search images..."
+          />
+          <button class="search-btn">Search</button>
+        </form>
+      </div>
+      <div class="loader hidden"></div>
+      <ul class="gallery"></ul>
     </section>
-
-    <!-- Loads the specified .html file -->
-    <load ="partials/vite-promo.html" />
-
     <script type="module" src="./main.js"></script>
+    <script type="module" src="./js/pixabay-api.js"></script>
   </body>
 </html>
