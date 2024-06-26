@@ -9,6 +9,11 @@ p {
   margin: 0;
 }
 
+body {
+  padding-left: 156px;
+  padding-right: 156px;
+}
+
 p:last-child {
   margin-bottom: 0;
 }

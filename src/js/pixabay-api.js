@@ -1,28 +1,32 @@
-export function getImages(userText) {
-  const BASE_URL = 'https://pixabay.com/api/';
+import axios from 'axios';
+
+export async function getImages(query, currentPage) {
+  axios.defaults.baseURL = 'https://pixabay.com/api/';
+
   const params = new URLSearchParams({
     key: '44427919-32b813221576803201dca5eed',
-    q: userText,
+    q: query,
     image_type: 'photo',
     orientation: 'horisontal',
     safesearch: 'true',
-    per_page: 50,
+    per_page: 15,
+    page: currentPage,
   });
 
-  const url = `${BASE_URL}?${params}`;
-  return fetch(url)
-    .then(res => res.json())
-    .catch(error => {
-      iziToast.show({
-        iconUrl: imageUrl,
-        title: 'Error',
-        titleColor: 'white',
-        message: 'Error!',
-        messageColor: 'white',
-        messageSize: '16px',
-        backgroundColor: '#ef4040',
-        position: 'topRight',
-        theme: 'dark',
-      });
+  try {
+    const res = await axios.get('', { params });
+    return res.data;
+  } catch (error) {
+    iziToast.show({
+      iconUrl: imageUrl,
+      title: 'Error',
+      titleColor: 'white',
+      message: 'Error!',
+      messageColor: 'white',
+      messageSize: '16px',
+      backgroundColor: '#ef4040',
+      position: 'topRight',
+      theme: 'dark',
     });
+  }
 }
