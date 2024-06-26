@@ -14,6 +14,7 @@ export const refs = {
   galleryItem: document.querySelector('.gallery-item'),
   loader: document.querySelector('.loader'),
   btnLoadMore: document.querySelector('.btn-load-more'),
+  loaderMore: document.querySelector('.loader-more'),
 };
 
 let query = '';
@@ -48,10 +49,9 @@ refs.formElem.addEventListener('submit', async e => {
     refs.formElem.reset();
   } else {
     try {
+      hiddenBtnLoadMore();
       const data = await getImages(query, currentPage);
-      console.log(data);
       maxPage = Math.ceil(data.total / perPage);
-      console.log(maxPage);
       if (data.hits.length > 0) {
         const markup = imagesTemplate(data);
         refs.galleryElem.innerHTML = markup;
@@ -98,11 +98,18 @@ refs.formElem.addEventListener('submit', async e => {
 
 refs.btnLoadMore.addEventListener('click', async e => {
   e.preventDefault();
+
   currentPage++;
+
+  hiddenBtnLoadMore();
+  showLoaderMore();
+
   const data = await getImages(query, currentPage);
   const markup = imagesTemplate(data);
   refs.galleryElem.insertAdjacentHTML('beforeend', markup);
+  skipLastElem();
   updateBtnStatus();
+  hideLoaderMore();
 });
 
 function showLoader() {
@@ -112,9 +119,23 @@ function hideLoader() {
   refs.loader.classList.add('hidden');
 }
 
+function showLoaderMore() {
+  refs.loaderMore.classList.remove('hidden');
+}
+function hideLoaderMore() {
+  refs.loaderMore.classList.add('hidden');
+}
+
 function updateBtnStatus() {
   if (currentPage >= maxPage) {
     hiddenBtnLoadMore();
+    iziToast.info({
+      message: "We're sorry, but you've reached the end of search results.",
+      messageColor: 'black',
+      messageSize: '16px',
+      backgroundColor: '#00ffff',
+      position: 'bottomRight',
+    });
   } else {
     showBtnLoadMore();
   }
@@ -125,4 +146,13 @@ function showBtnLoadMore() {
 }
 function hiddenBtnLoadMore() {
   refs.btnLoadMore.classList.add('hidden');
+}
+
+function skipLastElem() {
+  const liElem = refs.galleryElem.children[0];
+  const height = liElem.getBoundingClientRect().height;
+  window.scrollBy({
+    top: height * 2.4,
+    behavior: 'smooth',
+  });
 }
