@@ -110,6 +110,10 @@ refs.btnLoadMore.addEventListener('click', async e => {
   skipLastElem();
   updateBtnStatus();
   hideLoaderMore();
+  new SimpleLightbox('.gallery-item a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  }).refresh();
 });
 
 function showLoader() {
