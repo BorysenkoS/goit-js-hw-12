@@ -22,7 +22,7 @@ let currentPage = 1;
 let maxPage = 1;
 const perPage = 15;
 
-new SimpleLightbox('.gallery a', {
+let lightbox = new SimpleLightbox('.gallery a', {
   captionPosition: 'bottom',
   captionsData: 'alt',
   captionDelay: 250,
@@ -55,11 +55,8 @@ refs.formElem.addEventListener('submit', async e => {
       if (data.hits.length > 0) {
         const markup = imagesTemplate(data);
         refs.galleryElem.innerHTML = markup;
+        lightbox.refresh();
         updateBtnStatus();
-        new SimpleLightbox('.gallery-item a', {
-          captionsData: 'alt',
-          captionDelay: 250,
-        }).refresh();
       } else {
         iziToast.show({
           iconUrl: imageUrl,
@@ -107,13 +104,10 @@ refs.btnLoadMore.addEventListener('click', async e => {
   const data = await getImages(query, currentPage);
   const markup = imagesTemplate(data);
   refs.galleryElem.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
   skipLastElem();
   updateBtnStatus();
   hideLoaderMore();
-  new SimpleLightbox('.gallery-item a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  }).refresh();
 });
 
 function showLoader() {

@@ -8,7 +8,7 @@ export function imageTemplate(image) {
     comments,
     downloads,
   } = image;
-  return `<li class="gallery-item">
+  return `<li class="gallery-item ">
           <a class="gallery-link" href="${largeImageURL}">
             <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
             <div class="gallery-describe">
